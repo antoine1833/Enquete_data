@@ -108,7 +108,6 @@ couleur4 <-"slateblue"
 couleur5 <- "darkorange"
 couleur6 <- "mediumaquamarine"
 
-size_label <- 5
 
 # Visualisation des palettes de couleurs
 # display.brewer.all()
