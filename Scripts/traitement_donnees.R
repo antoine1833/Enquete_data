@@ -61,59 +61,6 @@ library(skimr) # Summary plus efficace
 library(openxlsx) # Importation et écrire dans fichiers Excel
 
 
-###################################################################
-#                       Variables globales                        #
-###################################################################
-
-titre_enquete = "Enquête Data 2021"
-
-# Thème pour les graphes GG plot sur Shiny
-theme_GS <- function() {
-  theme_minimal() +
-    theme(
-      axis.text.x = element_text(size = 12, face = "bold"), # axes x
-      axis.text.y = element_text(size = 10),           # axe y
-      panel.grid.major.y =  element_line(size = 0.5, linetype = "dotdash"),
-      panel.grid.minor.y = element_line(size = 0.25, linetype = "dotdash"),
-      #panel.grid.minor = element_blank(),
-      #legend.position="bottom",legend.box = "vertical", # position et type de la légende)
-      legend.title = element_blank(),  # titre de la légende
-      plot.title = element_text(color = "dark blue", size = 16, face = "bold" , hjust = 0.5), # titre
-      plot.subtitle = element_text(size = 10, face = "italic" , hjust = 0.5), # sous-titre
-      plot.caption = element_text(face = "italic", size = 10), 
-      strip.text.x = element_text(size=16, color="darkviolet", face="bold.italic"), # texte du facet
-      legend.text=element_text(size=16) # Texte de la légende
-      #panel.background = element_rect(fill = "white"),   # Zone du graphique
-      #plot.background = element_rect(fill = "white")    # Zone autour du graphique
-    )
-}
-
-
-# Couleurs en points d'échelle
-couleurs_6_points <-  c("#339900", "#00FF66", "yellow", "orange","firebrick1", "firebrick4" ) 
-couleurs_5_points <-  c("#339900", "#00FF66", "yellow", "orange","red" ) 
-couleurs_4_points <-  c("#339900", "#00FF66","orange","red" ) 
-couleurs_3_points <-  c("#339900","orange","red") 
-couleurs_2_points <-  c("#339900","red") 
-
-
-pink_and_blue <- c(male = "#0099ff", female = "#FF69B4")
-oui_et_non <- c("greenyellow","lightcoral")
-
-# Couleurs sympas pour barplot
-couleur1 <- "cornflowerblue"
-couleur2 <-"darkorchid"
-couleur3 <-"darkcyan"
-couleur4 <-"slateblue" 
-couleur5 <- "darkorange"
-couleur6 <- "mediumaquamarine"
-
-
-# Visualisation des palettes de couleurs
-# display.brewer.all()
-
-
-
 
 
 ###################################################################
@@ -153,6 +100,7 @@ libelles_questions <- read.csv("./data/libelles_questions.csv",  encoding = "UTF
 
   #####  Supprimer les questions de "ranks" inutiles, et "startlanguage / lastpage / submitdate ##### 
   var_inutiles <- c("startlanguage", "lastpage", "submitdate", "C2.4.", "C2.5.", "C2.6.", "C2.7.", "C2.8.", "C2.9.", "C2.10.", "C2.11.", "C2.12.", "C2.13.")
+  
   data <- data %>% select(-var_inutiles)
   libelles_questions <- libelles_questions %>% select(-var_inutiles)
   glimpse(data)
@@ -170,10 +118,6 @@ libelles_questions <- read.csv("./data/libelles_questions.csv",  encoding = "UTF
     map_df(~fct_relabel(.x, ~str_replace(str_extract(.x, "_.+"), "_", ""))) # Transformation des valeurs type "A1_Data" en "Data"
 
         # data %>%  mutate(A3 = fct_relabel(A3, ~str_replace(str_extract(.x, "_.+"), "_", "")))
-  
-  # Aperçu  
-  data[1:6, 5:7]  
-
   
   #####  Reconvertir en caractères les pures questions ouvertes ##### 
   codes_questions_ouvertes <- c("Z2", "Z1", "A3.other.", "A2.other.", "A4.other." )
@@ -278,7 +222,7 @@ nb_reponses_brut <- nrow(data)
   
 
   
-### Recodage B2 : inverser les facteurs puis remplacer ls NA par jamais ###
+### Recodage B2 : inverser les facteurs puis remplacer les NA par jamais ###
   
   # Inversion de facteurs
   data <- data %>% 
